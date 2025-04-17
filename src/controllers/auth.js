@@ -89,50 +89,6 @@ const login = async (req, res) => {
     return res.status(401).json({ pesan: "Gagal Login" });
   }
 };
-// const refreshToken = async (req, res) => {
-//   //1. baca refresh token dari cookie
-//   const cookies = req.cookies;
-//   if (!cookies?.refreshtokensaya) {
-//     // kalau cookie tidak ada
-//     return res.sendStatus();
-//   }
-
-//   //  2. kalau ada mari kita pakai dan cek
-
-//   const refreshToken = cookies.refreshtokensaya;
-//   const pengguna = await Pengguna.findOne({
-//     where: { refresh_token: refreshToken },
-//     attributes: [
-//       "pengguna_id",
-//       "pengguna_nama",
-//       "pengguna_jk",
-//       "pengguna_password",
-//       "roles",
-//     ],
-//   });
-
-//   //3. cek data pengguna ketemu atau tidak
-
-//   if (!pengguna) {
-//     return res.sendStatus(403);
-//   }
-
-//   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-//     if (err) {
-//       return res.sendStatus(403);
-//     } else {
-//       pengguna.pengguna_password = undefined;
-
-//       //6. buat access token
-//       const accessToken = jwt.sign(
-//         { pengguna },
-//         process.env.ACCESS_TOKEN_SECRET,
-//         { expiresIn: "30s" }
-//       );
-//       return res.status(200).json(accessToken);
-//     }
-//   });
-// };
 
 const refreshToken = async (req, res) => {
   // 1. baca refresh token dari cookie
@@ -176,7 +132,39 @@ const refreshToken = async (req, res) => {
     }
   });
 };
-const logout = async (req, res) => {};
+
+//tujuannya adalah hapus refresh token dari database dan cookies
+const logout = async (req, res) => {
+  //1. cari dulu cookies kita tadi
+  const cookies = req.cookies;
+  if (!cookies?.refreshtokensaya) {
+    // kalo cookienya tidak ada, ya bagus dong berarti kan sudah ke logout
+    return res.sendStatus(204); //204 OK / sukses tanpa pesan kembalian apapun;
+  }
+
+  //2. lah kalo misalnya masih ada cookie yang menyimpan refresh token user??? gimana??
+  //ambil dulu isi dari refresh token kita
+
+  const refreshToken = cookies.refreshtokensaya;
+
+  const pengguna = await Pengguna.findOne({
+    where: {
+      refresh_token: refreshToken,
+    },
+  });
+
+  if (pengguna) {
+    //kalo penggunanya ketemu buang refresh token dari tabel nya
+
+    await pengguna.update({
+      refresh_token: null,
+    });
+    res.clearCookie("refreshtokensaya", { httpOnly: true });
+    return res.status(200).json({ pesan: "berhasil logout" });
+  } else {
+    return res.sendStatus(401);
+  }
+};
 
 module.exports = {
   register,
