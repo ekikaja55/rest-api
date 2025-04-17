@@ -9,11 +9,12 @@ const bukuRawRouter = require("./bukuRaw");
 const bukuORMRouter = require("./bukuORM");
 const contohValidasiAxiosRouter = require("./contohValidasiAxios");
 const authRouter = require("./auth");
-
+const contohMiddlewareRouter = require("./contohMiddleware");
 module.exports = {
   contohRouter,
   bukuRawRouter,
   bukuORMRouter,
   contohValidasiAxiosRouter,
   authRouter,
+  contohMiddlewareRouter,
 };

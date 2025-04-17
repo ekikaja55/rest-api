@@ -8,8 +8,11 @@ const {
   deleteBuku,
   contohRelasi,
 } = require("../controllers/bukuORM");
+const verifyJWT = require("../middlewares/verifyJWT");
+const checkRoles = require("../middlewares/checkRoles");
 
-// http://localhost:3000/api/v1/bukuorm/contohrelasi
+//semua pasang sekaligus
+router.use([verifyJWT, checkRoles("admin")]);
 
 router.get("/", queryBuku);
 // urutannya diperhatikan, ty yoshi

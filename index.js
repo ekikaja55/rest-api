@@ -35,6 +35,7 @@ const {
   bukuORMRouter,
   contohValidasiAxiosRouter,
   authRouter,
+  contohMiddlewareRouter,
 } = require("./src/routes");
 // localhost:3000/api/v1/contoh
 app.use("/api/v1/contoh", contohRouter);
@@ -42,6 +43,7 @@ app.use("/api/v1/buku", bukuRawRouter);
 app.use("/api/v1/bukuorm", bukuORMRouter);
 app.use("/api/v1/validasiaxios", contohValidasiAxiosRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/contohMiddleware", contohMiddlewareRouter);
 
 // menjalankan server
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
