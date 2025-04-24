@@ -43,7 +43,7 @@ app.use("/api/v1/buku", bukuRawRouter);
 app.use("/api/v1/bukuorm", bukuORMRouter);
 app.use("/api/v1/validasiaxios", contohValidasiAxiosRouter);
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/contohMiddleware", contohMiddlewareRouter);
+app.use("/api/v1/contohmiddleware", contohMiddlewareRouter);
 
 // menjalankan server
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

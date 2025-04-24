@@ -11,7 +11,9 @@ const {
 const verifyJWT = require("../middlewares/verifyJWT");
 const checkRoles = require("../middlewares/checkRoles");
 
-//semua pasang sekaligus
+// http://localhost:3000/api/v1/bukuorm/contohrelasi
+
+// berlakukan middleware untuk semua rute dibawah ini
 router.use([verifyJWT, checkRoles("admin")]);
 
 router.get("/", queryBuku);

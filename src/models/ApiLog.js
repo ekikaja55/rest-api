@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "api_log",
       tableName: "api_log",
+      
       paranoid: true,
       name: {
         singular: "ApiLog",
